@@ -2,7 +2,7 @@
 
 Sex ratio of children of key characters across world mythological traditions.
 
-Across 450 parent-child entries spanning 32 epics and 23 civilizations, 85% of named children are sons. The ratio varies by tradition — 97% male in Jain texts, 90% in Hindu, 77% in Jewish, 72% in Islamic, 64% in Greco-Roman — and by historicity: legendary figures are 88% male, but historically documented families are 68% male. 63% of couples have zero named daughters.
+Across 473 parent-child entries spanning 32 epics and 23 civilizations, 85% of named children are sons. The ratio varies by tradition — 97% male in Jain texts, 90% in Hindu, 77% in Jewish, 72% in Islamic, 67% in Christian, 64% in Greco-Roman — and by historicity: legendary figures are 88% male, but historically documented families are 68% male. 62% of couples have zero named daughters.
 
 ### Data
 
@@ -37,8 +37,8 @@ Every row carries a `row_type` flag. Analysts should filter or weight accordingl
 
 | Type | N | Meaning | Handling |
 |---|---|---|---|
-| `couple` | 321 | Both parents named, clean attribution | Use directly |
-| `spouse_unnamed` | 69 | Couple, but spouse absent from primary sources | Use; note limitation |
+| `couple` | 332 | Both parents named, clean attribution | Use directly |
+| `spouse_unnamed` | 81 | Couple, but spouse absent from primary sources | Use; note limitation |
 | `avg_from_aggregate` | 27 | Per-wife row created from a known aggregate: n_wives known, children divided equally. Counts may be fractional (e.g., 1.5 sons). | Use for couple-level analysis; fractional counts are averages |
 | `cross_tradition` | 15 | Derivative tradition retelling the same family (Roman ≈ Greek, Quran ≈ Hebrew Bible). Primary-tradition rows keep their natural type but carry a `family_id`. | Exclude to avoid double-counting, or use `family_id` to pick one tradition per family |
 | `single_divine` | 8 | Parthenogenesis, mind-born, or divine invocation without consort | Flag as non-biological if needed |
@@ -52,16 +52,16 @@ Not all rows have the same evidentiary status. Muhammad's children are as well-d
 | Level | N | Definition | Examples |
 |---|---|---|---|
 | `mythological` | 98 | Gods, cosmic beings, no human historicity claimed | Zeus, Brahma, Odin, Ra, Kashyapa, Izanagi |
-| `legendary` | 296 | Human figures in epic/religious texts; no independent corroboration of family details | Arjuna, Rama, Abraham, David, Moses, Achilles, Rostam, Buddha |
-| `historical` | 56 | Family documented by near-contemporaneous sources | Muhammad, Abu Bakr, Ali, Mu'awiya, Herod the Great (Josephus) |
+| `legendary` | 304 | Human figures in epic/religious texts; no independent corroboration of family details | Arjuna, Rama, Abraham, David, Moses, Achilles, Rostam, Buddha |
+| `historical` | 71 | Family documented by near-contemporaneous sources | Muhammad, Abu Bakr, Ali, Mu'awiya, Herod the Great (Josephus), Constantine, Theodosius |
 
 **Sex ratio by historicity:**
 
 | Level | Rows | Sons | Daughters | % Male |
 |---|---|---|---|---|
-| Legendary | 296 | 1,501 | 199 | **88%** |
+| Legendary | 304 | 1,507 | 206 | **88%** |
 | Mythological | 98 | 608 | 136 | **82%** |
-| Historical | 56 | 101 | 48 | **68%** |
+| Historical | 71 | 136 | 63 | **68%** |
 
 The gap between 88% and 68% is the storyteller's thumb on the scale.
 
@@ -86,26 +86,27 @@ The script produces: sex ratio by tradition, by historicity, row type distributi
 
 Key numbers from the distribution analysis:
 
-- **Median children per couple: 2.** Mean: 3.8 (skewed by a few large families).
+- **Median children per couple: 2.** Mean: 3.7 (skewed by a few large families).
 - **43% of couples have exactly 1 child.** 63% have 1–2.
 - **Mean sons per couple: 2.9. Mean daughters: 0.9.**
-- **63% of couples have zero named daughters.** Only 6% have zero sons.
-- **90% of figures appear with a single partner.** The most-partnered figures: Rehoboam (18 wife-rows), Ali (10), David (8), Krishna (8), Zeus (7).
+- **62% of couples have zero named daughters.** Only 7% have zero sons.
+- **84% of husbands appear with a single partner.** The most-partnered figures: Rehoboam (18 wife-rows), Ali (10), David (8), Krishna (8), Hasan ibn Ali (7), Zeus (7).
 
 ### Sex Ratio by Tradition
 
-Sons capped at 200 per parent to exclude mythical inflation. Only traditions with >10 rows shown; 15 smaller traditions (Egyptian, Christian, Celtic, Jain, Japanese, Buddhist, Mesopotamian, Armenian, Chinese, Arthurian, Maya, W. African, Finnish, Tibetan, Hindu Tamil) contribute 57 rows total.
+Sons capped at 200 per parent to exclude mythical inflation. Only traditions with >10 rows shown; 14 smaller traditions (Egyptian, Celtic, Jain, Japanese, Buddhist, Mesopotamian, Armenian, Chinese, Arthurian, Maya, W. African, Finnish, Tibetan, Hindu Tamil) contribute 50 rows total.
 
 | Tradition | Rows | Sons | Daughters | % Male |
 |---|---|---|---|---|
 | Hindu | 147 | 1,220 | 142 | 90% |
 | Jewish | 95 | 372 | 114 | 77% |
 | Islamic | 65 | 135 | 52 | 72% |
+| Christian | 30 | 54 | 27 | 67% |
 | Greco-Roman | 47 | 69 | 39 | 64% |
 | Norse | 14 | 20 | 3 | 87% |
 | Persian | 13 | 94 | 5 | 95% |
 | Turkic | 12 | 18 | 0 | 100% |
-| **Total** | **450** | **2,210** | **383** | **85%** |
+| **Total** | **473** | **2,251** | **405** | **85%** |
 
 ### Methodology
 
@@ -123,8 +124,8 @@ Sons capped at 200 per parent to exclude mythical inflation. Only traditions wit
 
 ### Coverage
 
-32 epics, 23 civilizations, 450 rows. Hindu (7 epics, 147 rows); Jewish (95 rows — patriarchs, Table of Nations, tribal sons, Levitical lineage, Judges, Kings); Islamic (65 rows — Prophet's lineage, Rashidun caliphs, Twelve Imams, Umayyads, companions, Quran); Greco-Roman (47 rows); Norse (14); Persian (13); and 12 other traditions (101 rows).
+32 epics, 23 civilizations, 473 rows. Hindu (7 epics, 147 rows); Jewish (95 rows — patriarchs, Table of Nations, tribal sons, Levitical lineage, Judges, Kings); Islamic (65 rows — Prophet's lineage, Rashidun caliphs, Twelve Imams, Umayyads, companions, Quran); Greco-Roman (47 rows); Christian (30 rows — NT figures, Church Fathers, Christian emperors, early martyrs); Norse (14); Persian (13); and 11 other traditions (82 rows).
 
 ### Sources
 
-Mahabharata; Ramayana (Valmiki); Bhagavata Purana; Vishnu Purana; Shiva Purana; Hebrew Bible; Quran; al-Tabari; Ibn Sa'd (Tabaqat); Ibn Hisham (Sirah); Sahih al-Bukhari; Sahih Muslim; al-Kulayni (Usul al-Kafi); al-Mufid (Kitab al-Irshad); Hesiod (Theogony); Apollodorus (Bibliotheca); Homer; Ovid; Virgil; Josephus (Antiquities); Prose Edda; Poetic Edda; Ferdowsi (Shahnameh); Kojiki; Dede Korkut; Kalevala; Popol Vuh; Sundiata (Niane); Jinasena (Adi Purana); Ashvaghosha (Buddhacarita).
+Mahabharata; Ramayana (Valmiki); Bhagavata Purana; Vishnu Purana; Shiva Purana; Hebrew Bible; New Testament; Protoevangelium of James; Acts of Peter; Josephus (Antiquities); Eusebius (Church History); Augustine (Confessions); Gregory of Nyssa (Life of Macrina); Gregory of Tours (History of the Franks); Passion of Perpetua and Felicity; Quran; al-Tabari; Ibn Sa'd (Tabaqat); Ibn Hisham (Sirah); Sahih al-Bukhari; Sahih Muslim; al-Kulayni (Usul al-Kafi); al-Mufid (Kitab al-Irshad); Hesiod (Theogony); Apollodorus (Bibliotheca); Homer; Ovid; Virgil; Prose Edda; Poetic Edda; Ferdowsi (Shahnameh); Kojiki; Dede Korkut; Kalevala; Popol Vuh; Sundiata (Niane); Jinasena (Adi Purana); Ashvaghosha (Buddhacarita).
