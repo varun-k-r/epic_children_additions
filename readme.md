@@ -133,7 +133,7 @@ The trees document the intersection of two major lineages:
 
 1. **Sinhala royal line** — King of Kalinga → King of Vanga → The Lion → Sihabahu → Vijaya I → (via Pandu/Susima) Panduvasudeva → Pandukabhaya → Mutasiva → and onward through the Anuradhapura kings.
      - The Lion is Suppadevi's husband. Suppadevi is the daughter of the King of Wagu (Vanga in the csv) and the queen of Kalinga. When Suppadevi was born the astrolgers proclaimed "One day, this princess will marry a lion, for she possesses an unusually strong passion and desire.” https://www.srilankanz.co.nz/history/the-legend-of-sinhabahu-and-the-origin-of-vijaya-myths-facts-and-interpretations
-       The Lion and Suppadevi's child is the legendary Sinhabahu (Sihabahu in the csv, literally meaning Lion Armed or the one who had arms like Lion) who features on the [Sri Lankan Flag](figs/sinhabahu_flag.png)
+       The Lion and Suppadevi's child is the legendary Sinhabahu (Sihabahu in the csv, literally meaning Lion Armed or the one who had arms like Lion) who features on the ![Sri Lankan Flag](figs/sinhabahu_flag.png)
 
 2. **Sakya/Buddhist line** — Jayasena (Mahasammata) → Sihahanu → Suddhodana → Siddhartha (the Buddha). Connected to the Sinhala line through Amitodana (son of Sihahanu, ancestor of Pandu) and Bhaddakacchana (Sakyan princess, wife of Panduvasudeva).
 
