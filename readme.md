@@ -10,7 +10,7 @@ This repository extends https://github.com/soodoku/epic_children by adding addit
 
 - `epic_children.csv` — original cross-epic genealogy (32 traditions)
 - `mahavamsa.csv` — Sinhala royal genealogy
-- `south_indian_traditions.csv` — Tamil Hindu (Ziegenbalg) genealogy
+- `south_indian_traditions.csv` — Tamil Hindu genealogy
 - `epic_prayer_for_children.csv` — prayers for children across traditions
 
 Each dataset is derived from a single primary source and preserved without cross-source harmonization.
@@ -39,7 +39,7 @@ Each dataset is provided in two formats:
 
 - original `epic_children` (32 traditions)
 - Mahavamsa
-- South Indian Traditions (Ziegenbalg)
+- South Indian Traditions 
 
 2,366 rows across 34 traditions. Each row represents one child. No further merging is required.
 
