@@ -5,10 +5,10 @@ Genealogical Trees of the Kings of Lanka (Trees I & II), compiled by John Still 
 
 ## Unit of Observation
 
-### Wide form (`mahavamsa_genealogy.csv`)
+### Wide form (`mahavamsa.csv`)
 Each row represents one **couple** (a marriage/union and its offspring), one **individual with children but no recorded spouse**, or one **usurper** entry.
 
-### Long form (`epic_children_long.csv`)
+### Long form (`mahavamsa_long.csv`)
 Each row represents one **child**. Childless couples retain one row with empty `child_name`, `child_sex`, and `child_order` fields. This format is tidy-compliant: one observation per row, one variable per column, one value per cell.
 
 ## Schema
@@ -54,9 +54,9 @@ The long form drops `n_sons`, `sons`, `n_daughters`, `daughters`, and `n_unknown
 - Duplicate child names (different historical individuals): Uttiya (×2), Mahanaga (×2), Queen (×2)
 - Historicity: 17 legendary, 11 semi-historical, 36 historical
 
-## Validation Summary — Long Form (full combined dataset)
-- **2,313 rows** across **33 epics** (473 from epic_children + 64 mahavamsa, expanded to one child per row)
-- **112 mahavamsa rows** (73 male, 13 female, 4 unknown, 22 childless couples)
+## Validation Summary — Long Form
+- **112 rows** (86 named children + 26 childless couple rows)
+- 73 male, 13 female, 4 unknown sex
 - Tidy-compliant: no multi-value cells
 
 ## Cleaning Notes
@@ -70,4 +70,3 @@ The long form drops `n_sons`, `sons`, `n_daughters`, `daughters`, and `n_unknown
 8. Two distinct Gothabhaya figures: Ruhuna line (Tree I) vs Lambakanna (Tree II).
 9. Tree II `****` breaks indicate non-familial succession.
 10. Unnamed queens recorded as "Queen" in wife/daughters fields.
-11. Column `epic_source` in earlier versions was split into `epic` (tradition tag) and `source` (textual citation) to match the cross-epic schema.
