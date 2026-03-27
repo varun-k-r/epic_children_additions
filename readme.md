@@ -19,7 +19,22 @@ The dataset is in two formats:
 2. **One variable per column** — `child_name`, `child_sex`, and `child_order` are atomic
 3. **One value per cell** — no comma-separated lists
 
-The wide form is optimized for the core research question (sex ratio per couple) where each couple is the unit of analysis. The long form is better for child-level analysis, filtering by sex, or joining with other per-person datasets.
+The wide form is optimized for the core research question (sex ratio per couple) where each couple is the unit of analysis. The long form is better for child-level analysis, filtering by sex, or joining with other per-person datasets. The eventual hope is to create a person-level dataset with attributes like:
+
+1. Hero's journey compliant (yes/no)
+2. Weapon of choice
+3. Superpowers (if any)
+4. Wealth
+5. Cause of death (battle, old age, curse, suicide, betrayal)
+6. Manner of birth (natural, divine intervention, adopted)
+7. Reign (if at all)
+8. Role (king, warrior, sage, queen regnant, usurper, consort)
+9. Avatar status (avatar of Vishnu, blessed by Shiva, etc.)
+10. Exile or imprisonment (yes/no, duration)
+11. Number of spouses
+12. Importance (number of chapters/verses featuring them — a rough proxy for narrative importance)
+13. Subsequent modern-day work based on this character (e.g., Mahabharata retold through Karna's lens, through Bheeshma's lens, etc.)
+14. anything else?
 
 | Format | Rows | Unit | Tidy? |
 |---|---|---|---|
