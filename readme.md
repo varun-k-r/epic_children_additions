@@ -1,131 +1,129 @@
-## Epic Children
+# Mahavamsa Genealogy Dataset
 
-Sex ratio of children of key characters across world mythological traditions.
+ **This dataset augments [soodoku/epic_children](https://github.com/soodoku/epic_children)** 
+ The Mahavamsa data follows the same schema and can be appended directly to `epic_children.csv`.
 
-Across 473 parent-child entries spanning 32 epics and 23 civilizations, 85% of named children are sons. The ratio varies by tradition — 97% male in Jain texts, 90% in Hindu, 77% in Jewish, 72% in Islamic, 67% in Christian, 64% in Greco-Roman — and by historicity: legendary figures are 88% male, but historically documented families are 68% male. 62% of couples have zero named daughters.
+Mahavamsa genealogical data extracted from the **Genealogical Trees of the Kings of Lanka**, compiled by John Still (1907) and published in the *Index to the Mahavamsa*. The authoritative text is Wilhelm Geiger's translation of the Mahavamsa from Pali (1912), with the English translation by Mabel Haynes Bode.
 
-### Data
+This dataset covers the two genealogy trees appended to the Mahavamsa (chapters 1–37), spanning from the legendary Mahasammata line of kings (6th century BC) through the reign of King Mahasena (277 AD).
 
-[epic_children.csv](epic_children.csv) — one row per parental unit.
+## Wide vs Long Form
 
-Figures with multiple spouses are split into separate rows: Arjuna has four rows (one per wife), David eight, Krishna eight (five individually named queens from Bhagavata Purana 10.61), Ali seven, Abu Bakr four. Where the number of wives is known but per-wife attribution is not (Rehoboam's 16 unnamed wives, Hasan ibn Ali's ~7), we create per-wife rows with the average child count, tagged `avg_from_aggregate`.
+The dataset is in two formats:
 
-**Columns:**
+**`mahavamsa_genealogy.csv`** — Wide form (one row per couple). This matches the `epic_children.csv` schema directly and can be concatenated with it. Sons and daughters are stored as comma-separated lists in the `sons` and `daughters` columns. This is the format used in the upstream repo.
 
-| Column | Description |
+**`epic_children_long.csv`** — Long form (one row per child). This is the **tidy-compliant** version of the full combined dataset (all 33 epics + mahavamsa). It satisfies the three tidy data rules:
+
+1. **One observation per row** — each row is a single child
+2. **One variable per column** — `child_name`, `child_sex`, and `child_order` are atomic
+3. **One value per cell** — no comma-separated lists
+
+The wide form is optimized for the core research question (sex ratio per couple) where each couple is the unit of analysis. The long form is better for child-level analysis, filtering by sex, or joining with other per-person datasets.
+
+| Format | Rows | Unit | Tidy? |
+|---|---|---|---|
+| Wide (mahavamsa only) | 64 | couple | No — `sons`/`daughters` columns hold multiple values |
+| Long (all epics + mahavamsa) | 2,313 | child | Yes |
+
+## Source Material
+
+Original URL: budsas.org/ebud/mahavamsa/gene.html. In case the link rots, the relevant screenshots are preserved below.![Geneology of Kings — Title Page](figs/genealogy_title.png)
+
+### Genealogical Tree I (6th century BC – 52 AD)
+
+The first tree begins with King Vijaya's great-great-grandfather and the Mahasammata line of kings. It traces the close relationship between the family of the Buddha and the early Sinhala kingship, ending with King Yasalalaka Tissa (52 AD).
+
+![Genealogical Tree I](figs/genealogy_tree_i.png)
+
+### Genealogical Tree II (60 AD – 277 AD)
+
+The second tree covers the Lambakanna dynasty from King Subharaja (60 AD) to King Mahasena (277 AD).
+
+![Genealogical Tree II](figs/genealogy_tree_ii.png)
+
+
+## Files
+
+| File | Description |
 |---|---|
-| `parents` | Both parents, format "X and Y". Where spouse unknown: "(wife unnamed)". |
-| `husband` | Husband name. `unknown` if unnamed, `multiple` if wife count unknown, `none` if parthenogenesis. |
-| `wife` | Wife name. `unknown` if unnamed, `multiple` if husband count unknown, `none` if parthenogenesis. |
-| `husband_id` | Stable ID, format `epic::name`. Same person across rows gets same ID. Blank for unknown/none/multiple. |
-| `wife_id` | Stable ID, format `epic::name`. |
-| `n_sons` | Number of sons (may be fractional for `avg_from_aggregate` rows) |
-| `sons` | Names of sons |
-| `n_daughters` | Number of daughters (may be fractional for `avg_from_aggregate` rows) |
-| `daughters` | Names of daughters |
-| `n_unknown_sex` | Children of unknown sex |
-| `epic` | Source tradition (e.g., `mahabharat`, `hebrew_bible`, `islam`, `greek`) |
-| `source` | Primary textual source with chapter/verse |
-| `comments` | Attribution notes, variant traditions, adoptive vs. biological |
-| `row_type` | Data quality flag (see below) |
-| `historicity` | `mythological`, `legendary`, or `historical` |
-| `family_id` | Links cross-tradition parallels for deduplication |
+| `mahavamsa_genealogy.csv` | Wide form — one couple per row, matches `epic_children.csv` schema |
+| `epic_children_long.csv` | Long form (tidy) — one child per row, full combined dataset (33 epics + mahavamsa) |
+| `mahavamsa_genealogy_codebook.md` | Variable definitions, validation summary, cleaning notes |
+| `readme.md` | This file |
+| `genealogy_tree_i.png` | Screenshot of Genealogical Tree I (6th c. BC – 52 AD) |
+| `genealogy_tree_ii.png` | Screenshot of Genealogical Tree II (60 AD – 277 AD) |
+| `genealogy_title.png` | Title page of the Geneology of Kings |
 
-### Row Types
+## Schema
 
-Every row carries a `row_type` flag. Analysts should filter or weight accordingly.
+Conforms to the cross-epic genealogy schema ([soodoku/epic_children](https://github.com/soodoku/epic_children/tree/main/data)). Namespace prefix: `mahavamsa::`.
 
-| Type | N | Meaning | Handling |
-|---|---|---|---|
-| `couple` | 332 | Both parents named, clean attribution | Use directly |
-| `spouse_unnamed` | 81 | Couple, but spouse absent from primary sources | Use; note limitation |
-| `avg_from_aggregate` | 27 | Per-wife row created from a known aggregate: n_wives known, children divided equally. Counts may be fractional (e.g., 1.5 sons). | Use for couple-level analysis; fractional counts are averages |
-| `cross_tradition` | 15 | Derivative tradition retelling the same family (Roman ≈ Greek, Quran ≈ Hebrew Bible). Primary-tradition rows keep their natural type but carry a `family_id`. | Exclude to avoid double-counting, or use `family_id` to pick one tradition per family |
-| `single_divine` | 8 | Parthenogenesis, mind-born, or divine invocation without consort | Flag as non-biological if needed |
-| `mythical_count` | 7 | Total children ≥ 100 (Kauravas 101, Kadru 1,002, Sagara 60,001) | Cap or exclude; we cap at 200 in ratio calculations |
-| `multi_wife_agg` | 3 | Children from multiple wives lumped together; wife count unknown, so per-wife splitting impossible | Use with caution; inflates apparent son count |
+### Wide form columns
 
-### Historicity
+| Column | Type | Description |
+|---|---|---|
+| `parents` | string | Couple label (e.g., "Vijaya I and Kuveni") or single parent name |
+| `husband` | string | Male partner or patriarch |
+| `wife` | string | Female partner; empty if unknown; "Queen" if unnamed |
+| `husband_id` | string | Namespaced identifier (`mahavamsa::snake_case`) |
+| `wife_id` | string | Namespaced identifier (`mahavamsa::snake_case`) |
+| `n_sons` | numeric | Count of sons |
+| `sons` | string | Comma-separated list of sons |
+| `n_daughters` | numeric | Count of daughters |
+| `daughters` | string | Comma-separated list of daughters |
+| `n_unknown_sex` | numeric | Count of children of unspecified sex |
+| `epic` | string | Tradition tag: `mahavamsa` |
+| `source` | string | Textual citation (e.g., "Mahavamsa Ch.22") |
+| `comments` | string | Contextual notes |
+| `row_type` | categorical | `couple` or `usurper` |
+| `historicity` | categorical | `legendary`, `semi-historical`, or `historical` |
+| `family_id` | string | Reserved for cross-dataset linking |
 
-Not all rows have the same evidentiary status. Muhammad's children are as well-documented as any 7th-century family. Arjuna's are literary inventions. David probably existed (Tel Dan stele, ~840 BCE), but the stele doesn't validate 1 Chronicles 3 — his specific wife-and-children list comes from texts compiled centuries later, same genre as Abraham's.
+### Long form columns (replaces sons/daughters)
 
-| Level | N | Definition | Examples |
-|---|---|---|---|
-| `mythological` | 98 | Gods, cosmic beings, no human historicity claimed | Zeus, Brahma, Odin, Ra, Kashyapa, Izanagi |
-| `legendary` | 304 | Human figures in epic/religious texts; no independent corroboration of family details | Arjuna, Rama, Abraham, David, Moses, Achilles, Rostam, Buddha |
-| `historical` | 71 | Family documented by near-contemporaneous sources | Muhammad, Abu Bakr, Ali, Mu'awiya, Herod the Great (Josephus), Constantine, Theodosius |
+| Column | Type | Description |
+|---|---|---|
+| `child_name` | string | Name of the child (empty if unnamed or childless couple) |
+| `child_sex` | categorical | `male`, `female`, `unknown`, or empty |
+| `child_order` | numeric | Birth order within the union (1-indexed) |
 
-**Sex ratio by historicity:**
+## Historicity Classification
 
-| Level | Rows | Sons | Daughters | % Male |
-|---|---|---|---|---|
-| Legendary | 304 | 1,507 | 206 | **88%** |
-| Mythological | 98 | 608 | 136 | **82%** |
-| Historical | 71 | 136 | 63 | **68%** |
+- **Legendary** — Mythological and pre-historical figures (Mahasammata line, the Lion, the Buddha's Sakya dynasty). No independent corroboration.
+- **Semi-historical** — Traditional dates with limited external evidence (Vijaya I through Mutasiva, the Ruhuna line of Gothabhaya and Kakavanna Tissa).
+- **Historical** — Supported by inscriptions, external chronicles, or archaeological evidence (Devanampiya Tissa onward).
 
-The gap between 88% and 68% is the storyteller's thumb on the scale.
+## Polygamy and Shared Wives
 
-### Cross-Tradition Parallels
+Three men in the dataset had multiple wives, each recorded as a separate row:
 
-The `family_id` column links families that appear in multiple traditions. 15 unique IDs cover Greek ≈ Roman pairs (`titan_parents`, `sky_king_queen`, `sea_god`, `underworld`, `love_war`, etc.) and Hebrew Bible ≈ Quran pairs (`abraham`, `noah`, `lot`, `david`, `solomon`, `jacob`, `amram_moses`). Primary-tradition rows keep their natural `row_type`; derivative rows are tagged `cross_tradition`. To deduplicate: filter on `row_type != 'cross_tradition'`.
+- **Kakavanna Tissa** — Vihara Devi (sons: Duttha Gamani, Saddha Tissa) and a Second Wife (son: Dighabhaya)
+- **Vatta Gamani** — Somadevi (no children in tree) and Anula (son: Mahanaga/Cora)
+- **Suddhodana** — Maya (son: Siddhartha/Buddha) and Pajapati (no children in tree)
 
-### Analysis
+One woman, **Anula** (wife of Mahacula Mahatissa), subsequently married **Cora** (Mahanaga). She appears in two rows with the same `wife_id`.
 
-Run `python analyze.py` to reproduce all summary statistics and plots:
+## Usurpers
 
-```
-python analyze.py                      # reads epic_children.csv
-python analyze.py path/to/file.csv     # reads specified file
-```
+Seven usurper entries are included as `row_type=usurper` with no genealogical links, matching their bracketed presentation in the original trees:
 
-The script produces: sex ratio by tradition, by historicity, row type distribution, partner multiplicity (wives per husband), children-per-couple distribution, and two plots. Key findings:
+- Sena I and Guttika (Tamil, 237–215 BC)
+- Elara the Cholian (205–161 BC)
+- Pulahattha, Bahiya, Panayamara, Pilayamara, Dathiya I (Tamil, 103–89 BC)
 
-![Son Preference by Tradition](plot_by_tradition.png)
+## Key Relationships
 
-![The Vanishing Daughters](plot_vanishing_daughters.png)
+The trees document the intersection of two major lineages:
 
-Key numbers from the distribution analysis:
+1. **Sinhala royal line** — King of Kalinga → King of Vanga → The Lion → Sihabahu → Vijaya I → (via Pandu/Susima) Panduvasudeva → Pandukabhaya → Mutasiva → and onward through the Anuradhapura kings.
+     - The Lion is Suppadevi's husband. Suppadevi is the daughter of the King of Wagu (Vanga in the csv) and the queen of Kalinga. When Suppadevi was born the astrolgers proclaimed "One day, this princess will marry a lion, for she possesses an unusually strong passion and desire.” https://www.srilankanz.co.nz/history/the-legend-of-sinhabahu-and-the-origin-of-vijaya-myths-facts-and-interpretations
+       The Lion and Suppadevi's child is the legendary Sinhabahu (Sihabahu in the csv, literally meaning Lion Armed or the one who had arms like Lion). 
 
-- **Median children per couple: 2.** Mean: 3.7 (skewed by a few large families).
-- **43% of couples have exactly 1 child.** 63% have 1–2.
-- **Mean sons per couple: 2.9. Mean daughters: 0.9.**
-- **62% of couples have zero named daughters.** Only 7% have zero sons.
-- **84% of husbands appear with a single partner.** The most-partnered figures: Rehoboam (18 wife-rows), Ali (10), David (8), Krishna (8), Hasan ibn Ali (7), Zeus (7).
+2. **Sakya/Buddhist line** — Jayasena (Mahasammata) → Sihahanu → Suddhodana → Siddhartha (the Buddha). Connected to the Sinhala line through Amitodana (son of Sihahanu, ancestor of Pandu) and Bhaddakacchana (Sakyan princess, wife of Panduvasudeva).
 
-### Sex Ratio by Tradition
+## Citation
 
-Sons capped at 200 per parent to exclude mythical inflation. Only traditions with >10 rows shown; 14 smaller traditions (Egyptian, Celtic, Jain, Japanese, Buddhist, Mesopotamian, Armenian, Chinese, Arthurian, Maya, W. African, Finnish, Tibetan, Hindu Tamil) contribute 50 rows total.
+Still, John. "Genealogical Trees of the Kings of Lanka." In *Index to the Mahavamsa*. 1907.
 
-| Tradition | Rows | Sons | Daughters | % Male |
-|---|---|---|---|---|
-| Hindu | 147 | 1,220 | 142 | 90% |
-| Jewish | 95 | 372 | 114 | 77% |
-| Islamic | 65 | 135 | 52 | 72% |
-| Christian | 30 | 54 | 27 | 67% |
-| Greco-Roman | 47 | 69 | 39 | 64% |
-| Norse | 14 | 20 | 3 | 87% |
-| Persian | 13 | 94 | 5 | 95% |
-| Turkic | 12 | 18 | 0 | 100% |
-| **Total** | **473** | **2,251** | **405** | **85%** |
-
-### Methodology
-
-**Unit of observation.** One row = one couple (or one divine parent). Multi-partner figures are split by spouse wherever sources permit. Where per-wife child counts are known, each wife gets her own row (Krishna's 8 queens, Ali's 7 named wives). Where the total is known but not the per-wife breakdown, we create per-wife rows with the average, tagged `avg_from_aggregate` — Rehoboam's 16 unnamed wives each get a row with 1.5 sons and 3.75 daughters (= 24 and 60 divided by 16). Where the wife count itself is unknown (Gideon's "many wives"), the row stays aggregated as `multi_wife_agg`.
-
-**Deduplication.** Every named child in the Hindu epics was verified to appear in exactly one row. Overlapping single-parent entries were merged into couples (Agni + Svaha, Balarama + Revati). Summary rows were removed when couple-level rows exist (Satyavati → Parasara + Satyavati and Shantanu + Satyavati).
-
-**Biological vs. adoptive.** Niyoga births attributed to the biological father (Vyasa, not Vichitravirya). Karna appears twice: biological (Surya + Kunti) and adoptive (Adhiratha + Radha).
-
-**Historicity.** Three levels. The boundary is the evidentiary status of the *family details*: David is `legendary` because the Tel Dan stele says nothing about Bathsheba or Absalom. Muhammad is `historical` because his family is documented by multiple historians within 130–210 years, with independent chains of transmission.
-
-**What the male skew means.** The 85% reflects what storytellers chose to record, not demography. The historicity gradient confirms this: legendary 88%, historical 68%. When real families are documented, daughters appear at near-biological rates. When families are invented, daughters vanish. The traditions with the highest male ratios (Jain, Persian, Hindu) are those where sons drive inheritance and succession. The traditions with lower ratios (Islamic hadith, Greco-Roman mythology) either document families systematically or give women independent narrative roles.
-
-**The Rehoboam test.** The Jewish sex ratio dropped from 90% to 77% when we added Rehoboam's 60 daughters (2 Chronicles 11:21) and Ibzan's 30 daughters (Judges 12:8-9) — two of the only passages in the Hebrew Bible that explicitly count daughters. The daughters were always in the text. They just were not in anyone's dataset.
-
-### Coverage
-
-32 epics, 23 civilizations, 473 rows. Hindu (7 epics, 147 rows); Jewish (95 rows — patriarchs, Table of Nations, tribal sons, Levitical lineage, Judges, Kings); Islamic (65 rows — Prophet's lineage, Rashidun caliphs, Twelve Imams, Umayyads, companions, Quran); Greco-Roman (47 rows); Christian (30 rows — NT figures, Church Fathers, Christian emperors, early martyrs); Norse (14); Persian (13); and 11 other traditions (82 rows).
-
-### Sources
-
-Mahabharata; Ramayana (Valmiki); Bhagavata Purana; Vishnu Purana; Shiva Purana; Hebrew Bible; New Testament; Protoevangelium of James; Acts of Peter; Josephus (Antiquities); Eusebius (Church History); Augustine (Confessions); Gregory of Nyssa (Life of Macrina); Gregory of Tours (History of the Franks); Passion of Perpetua and Felicity; Quran; al-Tabari; Ibn Sa'd (Tabaqat); Ibn Hisham (Sirah); Sahih al-Bukhari; Sahih Muslim; al-Kulayni (Usul al-Kafi); al-Mufid (Kitab al-Irshad); Hesiod (Theogony); Apollodorus (Bibliotheca); Homer; Ovid; Virgil; Prose Edda; Poetic Edda; Ferdowsi (Shahnameh); Kojiki; Dede Korkut; Kalevala; Popol Vuh; Sundiata (Niane); Jinasena (Adi Purana); Ashvaghosha (Buddhacarita).
+Geiger, Wilhelm, trans. *The Mahavamsa, or The Great Chronicle of Ceylon*. Translated from Pali. London: Pali Text Society, 1912. English translation by Mabel Haynes Bode.
