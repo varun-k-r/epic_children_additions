@@ -54,7 +54,7 @@ In case the link rots, the relevant screenshots are preserved below.
 
 ### Genealogical Tree II (60 AD – 277 AD)
 
-![Genealogical Tree II](./figs/genealogy_tree_ii.png)  
+![Genealogical Tree II](/figs/genealogy_tree_ii.png)  
 
 ### Title Page
 
