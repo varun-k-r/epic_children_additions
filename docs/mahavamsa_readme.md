@@ -50,18 +50,18 @@ In case the link rots, the relevant screenshots are preserved below.
 
 ### Genealogical Tree I (6th century BC – 52 AD)
 
-![Genealogical Tree I](./figs/genealogy_tree_i.png)  
-[View Image](./figs/genealogy_tree_i.png)
+![Genealogical Tree I](/figs/genealogy_tree_i.png)  
+[View Image](/figs/genealogy_tree_i.png)
 
 ### Genealogical Tree II (60 AD – 277 AD)
 
 ![Genealogical Tree II](./figs/genealogy_tree_ii.png)  
-[View Image](./figs/genealogy_tree_ii.png)
+[View Image](/figs/genealogy_tree_ii.png)
 
 ### Title Page
 
-![Genealogy Title](./figs/genealogy_title.png)  
-[View Image](./figs/genealogy_title.png)
+![Genealogy Title](/figs/genealogy_title.png)  
+[View Image](/figs/genealogy_title.png)
 
 ---
 
@@ -116,8 +116,8 @@ The Lion is Suppadevi's husband. Suppadevi is the daughter of the King of Wagu (
 
 The Lion and Suppadevi's child is the legendary Sinhabahu (Sihabahu in the csv, literally meaning Lion Armed or the one who had arms like Lion) who features on the Sri Lankan Flag.  
 
-![Sri Lankan Flag](./figs/sinhabahu_flag.png)  
-[View Image](./figs/sinhabahu_flag.png)
+![Sri Lankan Flag](/figs/sinhabahu_flag.png)  
+[View Image](/figs/sinhabahu_flag.png)
 
 ---
 
